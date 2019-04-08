@@ -3,7 +3,7 @@
   * @file    modCalib.c
   * @author  Fahad Siddiqui
   * @brief   This file provides calibration trigger, sample buffer specific to 
-	*					 calibration and calibration data calculation codes.
+  *	     calibration and calibration data calculation codes.
   ******************************************************************************
 */
 
@@ -22,8 +22,8 @@
   */
 
 /** @defgroup modCalib
-  * @brief 		Provides calibration trigger, sample buffer specific to 
-	*					 	calibration and calibration data calculation codes.
+  * @brief 	Provides calibration trigger, sample buffer specific to 
+  *		calibration and calibration data calculation codes.
   * @{
   */
 
@@ -32,22 +32,22 @@ extern void Init_System(void);
 /* Private typedef Init_System-----------------------------------------------------------*/
 /* Private defines -----------------------------------------------------------*/
 #define CALIBRATION_BUFFER_SIZE						300
-#define MEAN_MAX_LIMIT										3000	
-#define MEAN_MIN_LIMIT										1000
-#define MIN_FLICKER_COUNT_LIM							25
-#define MAX_FLICKER_COUNT_LIM							75
-#define RANGE_LIMIT												620
-#define MAX_TRAILS												3
-#define SUCCESS														255
+#define MEAN_MAX_LIMIT							3000	
+#define MEAN_MIN_LIMIT							1000
+#define MIN_FLICKER_COUNT_LIM						25
+#define MAX_FLICKER_COUNT_LIM						75
+#define RANGE_LIMIT							620
+#define MAX_TRAILS							3
+#define SUCCESS								255
 #define AUTOCALIBRATION_TIMEOUT						18000  /*3Min*/
 #define AUTOCALIBRATION_FLICKER_TIMEOUT 	6000   /*1Min*/
 /* Private macros ------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-static uint16_t 								Calibration_Sample_Buffer[TOTAL_CHANNELS][CALIBRATION_BUFFER_SIZE];
-static CalibData_t  						CalibData;
-static Detector_Mode_te	 				*Mode;
-static Detector_State_te 				*OverallState;
-static int16_t								  (*pUpDownCounter)[TOTAL_CHANNELS];			
+static uint16_t 				Calibration_Sample_Buffer[TOTAL_CHANNELS][CALIBRATION_BUFFER_SIZE];
+static CalibData_t  				CalibData;
+static Detector_Mode_te	 			*Mode;
+static Detector_State_te 			*OverallState;
+static int16_t				 	(*pUpDownCounter)[TOTAL_CHANNELS];			
 /* Private function prototypes -----------------------------------------------*/
 static void modCalib_MedianFilter(uint32_t SampleCount);
 static void modCalib_GetCalibrationSamples(void);
@@ -82,12 +82,12 @@ void modCalib_Init(DataHandle_t *phandleData)
 	memset(&CalibData , 0 ,sizeof(CalibData));
 	memset(&Calibration_Sample_Buffer , 0 ,sizeof(Calibration_Sample_Buffer));
 	
-	Mode         													 = &phandleData->Mode;
-	OverallState 												   = &phandleData->OverallState;
-	phandleData->CalibData 								 = &CalibData;
-	pUpDownCounter         								 = phandleData->UpDownCounter;
+	Mode         			       = &phandleData->Mode;
+	OverallState 			       = &phandleData->OverallState;
+	phandleData->CalibData 		       = &CalibData;
+	pUpDownCounter         		       = phandleData->UpDownCounter;
 	CalibData.AutoCalibrationTick_Detected = AUTOCALIBRATION_TIMEOUT;
-	CalibData.CalibrationMode 						 = AUTO_CALIBRATION;
+	CalibData.CalibrationMode 	       = AUTO_CALIBRATION;
 }
 
 /**
@@ -215,34 +215,34 @@ static bool modCalib_Check_FlickerTickTimeout(void)
 	static uint32_t PreviousTick[TOTAL_INTENSITY_LEVEL][TOTAL_CHANNELS] = {0};
 	bool ret = false;
 		
-		for(int Intensity = INTENSITY_LEVEL_1; Intensity <= INTENSITY_LEVEL_4 && !ret ; Intensity ++)
+	for(int Intensity = INTENSITY_LEVEL_1; Intensity <= INTENSITY_LEVEL_4 && !ret ; Intensity ++)
+	{
+		for(int Channel = CHANNEL_1; Channel <= CHANNEL_4 && !ret ; Channel ++)
 		{
-			for(int Channel = CHANNEL_1; Channel <= CHANNEL_4 && !ret ; Channel ++)
-			{
-			
-				if( pUpDownCounter[Intensity][Channel] >= MIN_FLICKER_COUNT_LIM && 
-						pUpDownCounter[Intensity][Channel] <= MAX_FLICKER_COUNT_LIM )
-				{
 
-						CalibData.AutoCalibrationTick_Flicker[Intensity][Channel] += ( osKernelSysTick() - PreviousTick[Intensity][Channel]) ;
-						PreviousTick[Intensity][Channel] = osKernelSysTick();
-			
-				}
-				else
-				{
-					CalibData.AutoCalibrationTick_Flicker[Intensity][Channel] = 0;		
-					PreviousTick[Intensity][Channel] = osKernelSysTick();					
-				}	
-				
-				if(CalibData.AutoCalibrationTick_Flicker[Intensity][Channel] >= AUTOCALIBRATION_FLICKER_TIMEOUT)
-				{
-						memset(CalibData.AutoCalibrationTick_Flicker, 0 , sizeof(CalibData.AutoCalibrationTick_Flicker));
-						PreviousTick[Intensity][Channel] = osKernelSysTick();				
-						ret = true;	
-				}
-				
+			if( pUpDownCounter[Intensity][Channel] >= MIN_FLICKER_COUNT_LIM && 
+				pUpDownCounter[Intensity][Channel] <= MAX_FLICKER_COUNT_LIM )
+			{
+
+				CalibData.AutoCalibrationTick_Flicker[Intensity][Channel] += ( osKernelSysTick() - PreviousTick[Intensity][Channel]) ;
+				PreviousTick[Intensity][Channel] = osKernelSysTick();
+
 			}
+			else
+			{
+				CalibData.AutoCalibrationTick_Flicker[Intensity][Channel] = 0;		
+				PreviousTick[Intensity][Channel] = osKernelSysTick();					
+			}	
+
+			if(CalibData.AutoCalibrationTick_Flicker[Intensity][Channel] >= AUTOCALIBRATION_FLICKER_TIMEOUT)
+			{
+				memset(CalibData.AutoCalibrationTick_Flicker, 0 , sizeof(CalibData.AutoCalibrationTick_Flicker));
+				PreviousTick[Intensity][Channel] = osKernelSysTick();				
+				ret = true;	
+			}
+
 		}
+	}
 	
 	return ret;
 	
@@ -261,8 +261,8 @@ static void modCalib_HandleCalibrationLedTask(	uint16_t Trial)
 	 }
 	 else
 	 {
-			modUserCon_CalibrationFailLedOn();
-			osDelay(3000);
+		modUserCon_CalibrationFailLedOn();
+		osDelay(3000);
 	 }
 	 
 	 modUserCon_CalibrationFailLedOff();
