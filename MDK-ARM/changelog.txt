@@ -1,0 +1,10 @@
+1-Nov-2018 		Added Auto Calibration mode support
+				Added Selection of auto calibration mode and manual calibration mode 
+				Removed check debounce
+				Cleanup the code
+				Added vtaskDelayUntill() support
+				
+2-Nov-2018		Added Delay before first calibration for settling the adc
+
+3-Nov-2018		Removed hysterisis threshold comparison for detected and Not Detected logics
+				Added UndetectedThreshold as 12 for comparison of not detected state.
