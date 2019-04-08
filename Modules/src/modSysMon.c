@@ -32,9 +32,9 @@
 #define NORMAL_MODE_SAMPLE_BUFFER_SIZE	300
 #define DETECTED_LIT_TIME								2000
 /* Private variables ---------------------------------------------------------*/
-static DataHandle_t  					*pDetectordata;
+static DataHandle_t  				*pDetectordata;
 static Detector_Mode_te				*Mode;
-static uint16_t 							 Normal_Mode_Sample_Buffer[TOTAL_CHANNELS][NORMAL_MODE_SAMPLE_BUFFER_SIZE];
+static uint16_t 				 Normal_Mode_Sample_Buffer[TOTAL_CHANNELS][NORMAL_MODE_SAMPLE_BUFFER_SIZE];
 
 /* Private function prototypes -----------------------------------------------*/
 static void              modSysMon_ResetUpdownCounter   (void);
@@ -54,9 +54,9 @@ static Detector_State_te modSysMon_CheckForStateChange  (void);
   */
 void modSysMon_Init(DataHandle_t *phandleData, Detector_Mode_te *pMode)
 {
-	Mode        								= pMode;
-	pDetectordata 							= phandleData;
-	*Mode 											= MONITOR_MODE;
+	Mode        		    = pMode;
+	pDetectordata 		    = phandleData;
+	*Mode 			    = MONITOR_MODE;
 	pDetectordata->OverallState = NOT_DETECTED;
 	modSysMon_ResetUpdownCounter();
 	modUserCon_MonitorModeLedOn();
