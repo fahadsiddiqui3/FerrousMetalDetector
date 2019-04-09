@@ -166,7 +166,7 @@ static void modSysMon_UpdateOverallState(void)
   */
 static void modSysMon_UpdateStateToUser(void)
 {
-		modUserCon_AlertLedOn(pDetectordata->ChannelState);
+	modUserCon_AlertLedOn(pDetectordata->ChannelState);
 }
 /**
   * @brief 	Resets the UpdownCounter to initial limit
