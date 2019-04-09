@@ -40,7 +40,7 @@ extern void Init_System(void);
 #define MAX_TRAILS							3
 #define SUCCESS								255
 #define AUTOCALIBRATION_TIMEOUT						18000  /*3Min*/
-#define AUTOCALIBRATION_FLICKER_TIMEOUT 	6000   /*1Min*/
+#define AUTOCALIBRATION_FLICKER_TIMEOUT 				6000   /*1Min*/
 /* Private macros ------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 static uint16_t 				Calibration_Sample_Buffer[TOTAL_CHANNELS][CALIBRATION_BUFFER_SIZE];
