@@ -57,7 +57,7 @@ static void modCalib_CalculateCalibrationData(void);
 static void modCalib_Get_Mean_Min_Max(void);
 static bool modCalib_CheckDataValidity(void);
 static void modCalib_HandleCalibrationLedTask(uint16_t Trial);
-static bool	modCalib_GetAutoCalibrationTrigger(void);
+static bool modCalib_GetAutoCalibrationTrigger(void);
 static void modCalib_CalibrationModeSelectTask(void);
 static bool modCalib_Check_DetectedTickTimeout(void);
 static bool modCalib_Check_FlickerTickTimeout(void);
